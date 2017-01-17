@@ -10,10 +10,14 @@ app.get('/', function(req,res){
     os = os.trim(); 
     
     var language = req.acceptsLanguages()[0];
-    var ipv4 = req.headers["x-forwarded-for"];
-
+  
+    var remoteAdd = req.connection.remoteAddress; 
+    var isIpv6 = remoteAdd.indexOf(':') >= 0;
+    var ip = isIpv6 ? remoteAdd.split(':').reverse()[0] : remoteAdd;
+ 
+    
     var resObj = { 
-        ip : ipv4,
+        ip : ip,
         Language : language,
         OS : os
     };
